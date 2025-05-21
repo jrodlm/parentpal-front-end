@@ -14,16 +14,16 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:3000/api/auth/signuo', {
+            const res = await fetch('http://localhost:3000/api/auth/signup', {
                method: 'POST',
-               headers: { 'Content-TYpe': 'application/json'},
+               headers: { 'Content-Type': 'application/json'},
                body: JSON.stringify(formData)
             });
              
             const data = await res.json();
             console.log(data);
         } catch (err) {
-            console.error('Singnup error', err);
+            console.error('Signup error', err);
         }
     };
 

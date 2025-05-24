@@ -1,4 +1,4 @@
-const ChildDetail = (props) => {
+const ParentDetail = (props) => {
 
     if(!props.selected) {
         return (
@@ -10,20 +10,18 @@ const ChildDetail = (props) => {
 
     return (
         <>
-            <h2>Child Details</h2>
+            <h2>Parent Details</h2>
             <ul>
-                <li>Name: {props.selected.name}</li>
-                <li>Birthday: {props.selected.birthdate}</li>
-                    <li>Gender: {props.selected.gender}</li>
+                <li>Username: {props.selected.username}</li>
             </ul>
             <button onClick={() => props.handleFormView(props.selected)}>
-                Edit Child
+                Edit Parent
             </button>
             <button onClick={() => props.handleDeletePet(props.selected._id)}>
-                Delete Child
+                Delete Parent
             </button>
         </>
     )
 }
 
-export default ChildDetail
+export default ParentDetail

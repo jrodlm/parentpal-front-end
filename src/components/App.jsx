@@ -7,7 +7,7 @@ import ChildDetail from '../components/ChildDetail/ChildDetail'
 import ChildForm from '../components/ChildForm/ChildForm'
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import NavBar from './NavBar';
+import NavBar from './NavBar/NavBar';
 import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SignInForm/SignInForm';
 
@@ -103,16 +103,21 @@ const handleDeleteChild = async (childId) => {
     <>
     <NavBar />
     <Routes>
+      <Route path='/' element={<div>Welcome To ParentPal</div>} />
       <Route path='/sign-up' element={<SignUpForm/>} />
-    </Routes>
-      <ChildList children={children} handleSelect={handleSelect} handleFormView={handleFormView} isFormOpen={isFormOpen} />
-      {isFormOpen ? (
-        <ChildForm handleAddChild={handleAddChild} selected={selected} handleUpdateChild={handleUpdateChild}/>
-      ) : (
-        <ChildDetail selected={selected} handleFormView={handleFormView} handleDeleteChild={handleDeleteChild}/>
-      )}
+      <Route path='/sign-in' element={<SignInForm/>} />
+      </Routes>
     </>
   )
 }
 
 export default App;
+
+
+
+    // <ChildList children={children} handleSelect={handleSelect} handleFormView={handleFormView} isFormOpen={isFormOpen} />
+    //   {isFormOpen ? (
+    //     <ChildForm handleAddChild={handleAddChild} selected={selected} handleUpdateChild={handleUpdateChild}/>
+    //   ) : (
+    //     <ChildDetail selected={selected} handleFormView={handleFormView} handleDeleteChild={handleDeleteChild}/>
+    //   )}

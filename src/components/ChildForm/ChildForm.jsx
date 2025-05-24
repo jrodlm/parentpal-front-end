@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const initialState = {
-        parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Parent'},
+        // parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Parent'},
         name: '',
         birthdate: {type: Date, default: Date.now},
         gender: ''
@@ -28,14 +28,14 @@ const ChildForm = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="parentId"> Parent </label>
+                {/* <label htmlFor="parentId"> Parent </label>
                 <input
                     id="parentId"
                     name="parentId"
                     value={formData.parentId}
                     onChange={handleChange}
-                    required
-                />
+                    required */}
+                {/* /> */}
                 <label htmlFor="name"> Name </label>
                 <input
                     id="name"

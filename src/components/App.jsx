@@ -1,6 +1,6 @@
 import '../App.css';
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
 import * as childService from '../services/childService';
 import ChildList from '../components/ChildList/ChildList';
 import ChildDetail from '../components/ChildDetail/ChildDetail'
@@ -31,7 +31,7 @@ function App() {
         console.log(err);
       }
     };
-    fetchPets();
+    fetchChildren();
   }, []);
 
   const handleSelect = (child) => {
@@ -59,7 +59,7 @@ function App() {
 
 const handleUpdateChild = async (formData, childId) => {
   try {
-    const updatedPet = await childService.update(formData, childId);
+    const updatedChild = await childService.update(formData, childId);
 
     // handle potential errors
     if (updatedChild.err) {
@@ -83,7 +83,7 @@ const handleUpdateChild = async (formData, childId) => {
   }
 };
 
-const handleDeletePet = async (childId) => {
+const handleDeleteChild = async (childId) => {
   try {
     const deletedChild = await childService.deleteChild(childId)
 
@@ -91,7 +91,7 @@ const handleDeletePet = async (childId) => {
       throw new Error(deletedChild.err)
     }
 
-    setPets(children.filter((pet) => child._id !== deletedChild._id))
+    setChildren(children.filter((pet) => child._id !== deletedChild._id))
     setSelected(null)
     setIsFormOpen(false)
   } catch (err) {

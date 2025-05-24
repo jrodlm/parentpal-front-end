@@ -3,12 +3,12 @@ const ChildList = (props) => {
         <>
             <h1> Child List</h1>
             <div>
-                {!props.pets.length ? (
+                {!props.children.length ? (
                     <h2>No Children Added Yet!</h2>
                 ) : (
                     <ul>
-                        {props.pets.map((pet) => (
-                            <li key={pet._id}
+                        {props.children.map((child) => (
+                            <li key={child._id}
                                 style={{ cursor: 'pointer', color: "#646CFF" }}
                                 onClick={() => props.handleSelect(child)}
                             >

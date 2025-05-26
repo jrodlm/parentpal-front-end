@@ -25,7 +25,7 @@ function App() {
         if (fetchedChildren.err) {
           throw new Error(fetchedChildren.err);
         }
-        setPets(fetchedChildren);
+        setChildren(fetchedChildren);
       } catch (err) {
         // Log the error object
         console.log(err);
@@ -47,7 +47,7 @@ function App() {
   const handleAddChild = async (formData) => {
     try {
       const newChild = await childService.create(formData)
-      if(newChild.err) {
+      if (newChild.err) {
         throw new Error(newChild.err)
       }
       setPets([newChild, ...children])
@@ -57,67 +57,85 @@ function App() {
     }
   }
 
-const handleUpdateChild = async (formData, childId) => {
-  try {
-    const updatedChild = await childService.update(formData, childId);
+  const handleUpdateChild = async (formData, childId) => {
+    try {
+      const updatedChild = await childService.update(formData, childId);
 
-    // handle potential errors
-    if (updatedChild.err) {
-      throw new Error(updatedChild.err);
+      // handle potential errors
+      if (updatedChild.err) {
+        throw new Error(updatedChild.err);
+      }
+
+      const updatedChildList = children.map((child) => (
+        // If the _id of the current pet is not the same as the updated pet's _id,
+        // return the existing pet.
+        // If the _id's match, instead return the updated pet.
+        child._id !== updatedChild._id ? pet : updatedChild
+      ));
+      // Set pets state to this updated array
+      setPets(updatedChildList);
+      // If we don't set selected to the updated pet object, the details page will
+      // reference outdated data until the page reloads.
+      setSelected(updatedChild);
+      setIsFormOpen(false);
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    const updatedChildList = children.map((child) => (
-      // If the _id of the current pet is not the same as the updated pet's _id,
-      // return the existing pet.
-      // If the _id's match, instead return the updated pet.
-      child._id !== updatedChild._id ? pet : updatedChild
-    ));
-    // Set pets state to this updated array
-    setPets(updatedChildList);
-    // If we don't set selected to the updated pet object, the details page will
-    // reference outdated data until the page reloads.
-    setSelected(updatedChild);
-    setIsFormOpen(false);
-  } catch (err) {
-    console.log(err);
-  }
-};
+  const handleDeleteChild = async (childId) => {
+    try {
+      const deletedChild = await childService.deleteChild(childId)
 
-const handleDeleteChild = async (childId) => {
-  try {
-    const deletedChild = await childService.deleteChild(childId)
+      if (deletedChild.err) {
+        throw new Error(deletedChild.err)
+      }
 
-    if(deletedChild.err) {
-      throw new Error(deletedChild.err)
+      setChildren(children.filter((pet) => child._id !== deletedChild._id))
+      setSelected(null)
+      setIsFormOpen(false)
+    } catch (err) {
+      console.log(err)
     }
-
-    setChildren(children.filter((pet) => child._id !== deletedChild._id))
-    setSelected(null)
-    setIsFormOpen(false)
-  } catch (err) {
-    console.log(err)
   }
-}
 
   return (
     <>
-    <NavBar />
-    <Routes>
-      <Route path='/' element={<div>Welcome To ParentPal</div>} />
-      <Route path='/sign-up' element={<SignUpForm/>} />
-      <Route path='/sign-in' element={<SignInForm/>} />
-      </Routes>
-    </>
-  )
+      <NavBar />
+      <Routes>
+        <Route path='/'
+          element={
+            <>
+              <h1>Welcome To ParentPal</h1>
+
+              <ChildList 
+                children={children}
+                handleSelect={handleSelect}
+                handleFormView={handleFormView}
+                isFormOpen={isFormOpen}
+              />
+
+              {isFormOpen ? (
+              <ChildForm
+                handleAddChild={handleAddChild}
+                selected={selected}
+                handleUpdateChild={handleUpdateChild}
+              />
+              ) : (
+              <ChildDetail
+                selected={selected}
+                handleFormView={handleFormView}
+                handleDeleteChild={handleDeleteChild}
+              />
+            )} 
+        </>
+          }
+          />
+              <Route path='/sign-up' element={<SignUpForm />} />
+              <Route path='/sign-in' element={<SignInForm />} />
+            </Routes>
+        </>
+        )
 }
 
-export default App;
-
-
-
-    // <ChildList children={children} handleSelect={handleSelect} handleFormView={handleFormView} isFormOpen={isFormOpen} />
-    //   {isFormOpen ? (
-    //     <ChildForm handleAddChild={handleAddChild} selected={selected} handleUpdateChild={handleUpdateChild}/>
-    //   ) : (
-    //     <ChildDetail selected={selected} handleFormView={handleFormView} handleDeleteChild={handleDeleteChild}/>
-    //   )}
+        export default App;

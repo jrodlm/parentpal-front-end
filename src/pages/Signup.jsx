@@ -35,6 +35,11 @@ export default function Signup() {
         <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
         <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
         <button type="submit">Sign Up</button>
+        
+        <input type="text" placeholder="Child Name" />
+        <input type="text" placeholder="Activity" />
+        <input type="text" />
+        <button type="submit">Add Activity</button>
         </form>
 
     );

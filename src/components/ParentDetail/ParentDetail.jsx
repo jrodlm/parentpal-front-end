@@ -17,7 +17,7 @@ const ParentDetail = (props) => {
             <button onClick={() => props.handleFormView(props.selected)}>
                 Edit Parent
             </button>
-            <button onClick={() => props.handleDeletePet(props.selected._id)}>
+            <button onClick={() => props.handleDeleteChild(props.selected._id)}>
                 Delete Parent
             </button>
         </>

@@ -1,14 +1,12 @@
 const ChildList = (props) => {
-    console.log("children:", props.children);
-    console.log("Type:", typeof props.children);
-    console.log("Array?", Array.isArray(props.children));
-    console.log("Length:", props.children?.length);
+  console.log("ChildList received children:", props.children); // 👈 Add this
+
     return (
         <>
-            <h1> Child List</h1>
+            <h2> Child List</h2>
             <div>
-                {!props.children.length || props.children.length === 0 ? (
-                    <h2>No Children Yet!</h2>
+            {!Array.isArray(props.children) || props.children.length === 0 ? (
+                    <h3>No Children Added Yet!</h3>
                 ) : (
                     <ul>
                         {props.children.map((child) => (

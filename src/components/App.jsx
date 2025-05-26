@@ -44,18 +44,21 @@ function App() {
     setIsFormOpen(!isFormOpen)
   }
 
-  const handleAddChild = async (formData) => {
-    try {
-      const newChild = await childService.create(formData)
-      if (newChild.err) {
-        throw new Error(newChild.err)
-      }
-      setPets([newChild, ...children])
-      setIsFormOpen(false)
-    } catch (err) {
-      console.log(err)
-    }
+const handleAddChild = async (formData) => {
+  try {
+    const newChild = await childService.create(formData);
+    if (newChild.err) throw new Error(newChild.err);
+
+    const updatedList = await childService.index();
+    setChildren(updatedList);
+console.log("Fetched children after add:", updatedList);
+
+    setSelected(null); 
+    setIsFormOpen(false); 
+  } catch (err) {
+    console.log(err);
   }
+};
 
   const handleUpdateChild = async (formData, childId) => {
     try {
@@ -67,15 +70,9 @@ function App() {
       }
 
       const updatedChildList = children.map((child) => (
-        // If the _id of the current pet is not the same as the updated pet's _id,
-        // return the existing pet.
-        // If the _id's match, instead return the updated pet.
-        child._id !== updatedChild._id ? pet : updatedChild
+        child._id !== updatedChild._id ? child : updatedChild
       ));
-      // Set pets state to this updated array
-      setPets(updatedChildList);
-      // If we don't set selected to the updated pet object, the details page will
-      // reference outdated data until the page reloads.
+      setChildren(updatedChildList);
       setSelected(updatedChild);
       setIsFormOpen(false);
     } catch (err) {
@@ -91,7 +88,7 @@ function App() {
         throw new Error(deletedChild.err)
       }
 
-      setChildren(children.filter((pet) => child._id !== deletedChild._id))
+      setChildren(children.filter((child) => child._id !== deletedChild._id))
       setSelected(null)
       setIsFormOpen(false)
     } catch (err) {

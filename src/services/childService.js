@@ -1,13 +1,18 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/children`;
 
 const index = async () => {
-    try {
-        const res = await fetch(BASE_URL)
-        return res.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
+  try {
+    const res = await fetch(`${BASE_URL}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 const create = async (formData) => {
     try {
@@ -27,7 +32,7 @@ const create = async (formData) => {
 
 const update = async (formData, childId) => {
     try {
-        const res = await fetch(`${BASE_URL}/${petId}`, {
+        const res = await fetch(`${BASE_URL}/${childId}`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,

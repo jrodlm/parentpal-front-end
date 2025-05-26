@@ -1,29 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 
 const initialState = {
-        // parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Parent'},
-        name: '',
-        birthdate: {type: Date, default: Date.now},
-        gender: ''
+    // parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Parent'},
+    name: '',
+    birthdate: '',
+    gender: '',
+    age: ''
 }
 
 const ChildForm = (props) => {
-    const [formData, setFormData] = useState(
-        props.selected ? props.selected : initialState
-    )
+    const [formData, setFormData] = useState(initialState);
+    useEffect(() => {
+        if (props.selected) {
+            setFormData(props.selected);
+        } else {
+            setFormData(initialState);
+        }
+    }, [props.selected]);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(props.selected) {
+        if (props.selected) {
             props.handleUpdateChild(formData, props.selected._id)
         } else {
             props.handleAddChild(formData)
+            setFormData(initialState); 
         }
     }
+
+    const formatDateForInput = (dateValue) => {
+        const date = new Date(dateValue);
+        return !isNaN(date) ? date.toISOString().split('T')[0] : '';
+    };
+
 
     return (
         <div>
@@ -45,13 +58,15 @@ const ChildForm = (props) => {
                 />
                 <label htmlFor="birthdate"> Birthdate </label>
                 <input
-                    id="birthdate"
+                    type="date"
                     name="birthdate"
-                    value={formData.birthdate}
+                    id="birthdate"
+                    value={
+                        formatDateForInput(formData.birthdate)}
                     onChange={handleChange}
                 />
-                {/* on the below, where should we autocalculate the age? */}
-                <label htmlFor="age"> Age </label> 
+                {/* autocalculate of age will be built in if we have time */}
+                <label htmlFor="age"> Age </label>
                 <input
                     id="age"
                     name="age"
@@ -59,14 +74,19 @@ const ChildForm = (props) => {
                     onChange={handleChange}
                     required
                 />
-                <label htmlFor="gender"> Gender </label>
-                <input
+                <label htmlFor="gender">Gender</label>
+                <select
                     id="gender"
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
-                />
-                <button type="submit">{props.selected ? "Update Child" :" Add New Child" }</button>
+                    required
+                >
+                    <option value="">Select a gender</option>
+                    <option value="boy">Boy</option>
+                    <option value="girl">Girl</option>
+                </select>
+                <button type="submit">{props.selected ? "Update Child" : " Add New Child"}</button>
             </form>
         </div>
     )

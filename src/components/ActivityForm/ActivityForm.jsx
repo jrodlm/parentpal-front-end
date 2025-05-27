@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as activityService from '../../services/activityService';
 
 const initialState = {
@@ -6,8 +6,18 @@ const initialState = {
     note: '',
 };
 
-const ActivityForm = ({ childId, onAdd }) => {
-    const [formData, setFormData] = useState(initialState);
+const ActivityForm = ({ childId, onAdd, selectedActivity, handleUpdate }) => {
+     const [formData, setFormData] = useState(
+    selectedActivity || {
+      activityType: "",
+      note: "",
+      date: new Date().toISOString().split("T")[0],
+    }
+  );
+
+    useEffect(() => {
+    if (selectedActivity) setFormData(selectedActivity);
+  }, [selectedActivity]);
     const [submitting, setSubmitting] = useState(false);
 
     const activityOptions = [
@@ -34,17 +44,23 @@ const ActivityForm = ({ childId, onAdd }) => {
             childId,
         };
 
-        try {
-            const result = await activityService.create(payload);
-            if (result.err) throw new Error(result.err);
-            setFormData(initialState);
-            if (onAdd) onAdd();
-        } catch (err) {
-            console.error('Failed to create activity:', err);
-        } finally {
-            setSubmitting(false);
-        }
-    };
+   try {
+    if (selectedActivity && handleUpdate) {
+      const result = await handleUpdate(payload, selectedActivity._id);
+      if (result?.err) throw new Error(result.err);
+    } else {
+      const result = await activityService.create(payload);
+      if (result.err) throw new Error(result.err);
+      if (onAdd) onAdd();
+    }
+
+    setFormData(initialState);
+  } catch (err) {
+    console.error('Failed to submit activity:', err);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
     return (
         <form onSubmit={handleSubmit}>

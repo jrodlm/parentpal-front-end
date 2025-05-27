@@ -70,7 +70,7 @@ const ChildForm = (props) => {
                 <input
                     id="age"
                     name="age"
-                    value={formData.age}
+                    value={formData.age || ''}
                     onChange={handleChange}
                     required
                 />

@@ -1,75 +1,83 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import * as activityService from '../../services/activityService';
 
 const initialState = {
-      childId: {type: mongoose.Schema.Types.ObjectId, ref: 'Child'},
-      activityType: {type: String}, // I want this to be a dropdown, meal, play, nap, timeout, potty, etc.)
-      note: '',
-      date: {type: Date, default: Date.now},
-}
+  activityType: '',
+  note: '',
+};
 
-const ActivityForm = (props) => {
-    const [formData, setFormData] = useState(
-        props.selected ? props.selected : initialState
-    )
+const ActivityForm = ({ childId, onAdd }) => {
+  const [formData, setFormData] = useState(initialState);
+  const [submitting, setSubmitting] = useState(false);
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value})
+  const activityOptions = [
+    'Nap',
+    'Meal',
+    'Snack',
+    'Potty',
+    'Play',
+    'Activity',
+    'Education',
+    'Other',
+  ];
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const payload = {
+      ...formData,
+      childId,
+    };
+
+    try {
+      const result = await activityService.create(payload);
+      if (result.err) throw new Error(result.err);
+      setFormData(initialState); 
+      if (onAdd) onAdd();
+    } catch (err) {
+      console.error('Failed to create activity:', err);
+    } finally {
+      setSubmitting(false);
     }
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(props.selected) {
-            props.handleUpdateActivity(formData, props.selected._id)
-        } else {
-            props.handleAddActivity(formData)
-        }
-    }
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="activityType">Activity Type</label>
+      <select
+        id="activityType"
+        name="activityType"
+        value={formData.activityType}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select an activity</option>
+        {activityOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="childId"> Child </label>
-                <input
-                    id="childId"
-                    name="childId"
-                    value={formData.childId}
-                    onChange={handleChange}
-                    required
-                />
-                {/* <label htmlFor="name"> Name </label>  /* if the childId is not the name, this should stay, but the back end would need to be updated as well * / 
-                <input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange} */}
-                {/* /> */}
-                <label htmlFor="activityType"> Activity Type </label>
-                <input
-                    id="activityType"
-                    name="activityType"
-                    value={formData.activityType}
-                    onChange={handleChange}
-                    required
-                />
-                {/* on the below, where should we autocalculate the age? */}
-                <label htmlFor="note"> Note </label> 
-                <input
-                    id="note"   
-                    name="note"
-                    value={formData.note}
-                    onChange={handleChange}
-                />
-                <label htmlFor="date"> Date </label>
-                <input
-                    id="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                />
-                <button type="submit">{props.selected ? "Update Activity" :" Add New Activity" }</button>
-            </form>
-        </div>
-    )
-}
+      <label htmlFor="note">Note (optional)</label>
+      <textarea
+        id="note"
+        name="note"
+        value={formData.note}
+        onChange={handleChange}
+        placeholder="Add any extra details..."
+      />
+
+      <button type="submit" disabled={submitting}>
+        {submitting ? 'Logging...' : 'Log Activity'}
+      </button>
+    </form>
+  );
+};
 
 export default ActivityForm;

@@ -1,11 +1,20 @@
+import ActivityForm from '../ActivityForm/ActivityForm';
+import ActivityList from '../ActivityList/ActivityList';
+import { useState } from 'react';
+
+
 const ChildDetail = (props) => {
 
-    if(!props.selected) {
+  const [updateActivities, setUpdateActivities] = useState(false);
+
+  const initiateUpdate = () => setUpdateActivities((prev) => !prev);
+
+    if (!props.selected) {
         return (
             <div>
-      <h2>Select a child to view their details</h2>
-      <p>Or click "Add A Child" to get started.</p>
-    </div>
+                <h2>Select a child to view their details</h2>
+                <p>Or click "Add A Child" to get started.</p>
+            </div>
         )
     }
 
@@ -15,7 +24,7 @@ const ChildDetail = (props) => {
             <ul>
                 <li>Name: {props.selected.name}</li>
                 <li>Birthday: {props.selected.birthdate}</li>
-                    <li>Gender: {props.selected.gender}</li>
+                <li>Gender: {props.selected.gender}</li>
             </ul>
             <button onClick={() => props.handleFormView(props.selected)}>
                 Edit Child
@@ -23,6 +32,12 @@ const ChildDetail = (props) => {
             <button onClick={() => props.handleDeleteChild(props.selected._id)}>
                 Delete Child
             </button>
+            <hr />
+            <h3>Log a New Activity</h3>
+            <ActivityForm childId={props.selected._id} onAdd={initiateUpdate}
+ />
+            <h3>Activity History</h3>
+            <ActivityList childId={props.selected._id} intiateUpdate={updateActivities} />
         </>
     )
 }

@@ -1,11 +1,11 @@
 const ChildList = (props) => {
-  console.log("ChildList received children:", props.children); // 👈 Add this
+    console.log("ChildList received children:", props.children); // 👈 Add this
 
     return (
         <>
             <h2> Child List</h2>
             <div>
-            {!Array.isArray(props.children) || props.children.length === 0 ? (
+                {!Array.isArray(props.children) || props.children.length === 0 ? (
                     <h3>No Children Added Yet!</h3>
                 ) : (
                     <ul>

@@ -1,12 +1,19 @@
-# React + Vite
+# ParentPal – Front-End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![alt text](public/ParentPal-Logo.png)
 
-Currently, two official plugins are available:
+Welcome to the front-end of ParentPal, a modern MERN-stack parenting assistant that allows parents to track key activities for their children, such as naps, meals, playtime, and more.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- React (with Vite)
+- React Router
+- CSS for styling
+- JWT Authentication
+- Fetch API for backend communication
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+- User sign-up and login
+- Add, edit, and delete children
+- Log daily activities for each child
+- View activity history
+- Responsive, mobile-friendly design

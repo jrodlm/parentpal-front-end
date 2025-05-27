@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 const initialState = {
-    // parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Parent'},
     name: '',
     birthdate: '',
     gender: '',
@@ -28,7 +27,7 @@ const ChildForm = (props) => {
             props.handleUpdateChild(formData, props.selected._id)
         } else {
             props.handleAddChild(formData)
-            setFormData(initialState); 
+            setFormData(initialState);
         }
     }
 
@@ -41,14 +40,6 @@ const ChildForm = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                {/* <label htmlFor="parentId"> Parent </label>
-                <input
-                    id="parentId"
-                    name="parentId"
-                    value={formData.parentId}
-                    onChange={handleChange}
-                    required */}
-                {/* /> */}
                 <label htmlFor="name"> Name </label>
                 <input
                     id="name"
@@ -65,12 +56,11 @@ const ChildForm = (props) => {
                         formatDateForInput(formData.birthdate)}
                     onChange={handleChange}
                 />
-                {/* autocalculate of age will be built in if we have time */}
                 <label htmlFor="age"> Age </label>
                 <input
                     id="age"
                     name="age"
-                    value={formData.age}
+                    value={formData.age || ''}
                     onChange={handleChange}
                     required
                 />

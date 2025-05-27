@@ -5,8 +5,6 @@ import * as childService from '../services/childService';
 import ChildList from '../components/ChildList/ChildList';
 import ChildDetail from '../components/ChildDetail/ChildDetail'
 import ChildForm from '../components/ChildForm/ChildForm'
-import Home from '../pages/Home';
-import Login from '../pages/Login';
 import NavBar from './NavBar/NavBar';
 import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SignInForm/SignInForm';
@@ -21,13 +19,11 @@ function App() {
     const fetchChildren = async () => {
       try {
         const fetchedChildren = await childService.index();
-        // Don't forget to pass the error object to the new Error
         if (fetchedChildren.err) {
           throw new Error(fetchedChildren.err);
         }
         setChildren(fetchedChildren);
       } catch (err) {
-        // Log the error object
         console.log(err);
       }
     };
@@ -44,21 +40,21 @@ function App() {
     setIsFormOpen(!isFormOpen)
   }
 
-const handleAddChild = async (formData) => {
-  try {
-    const newChild = await childService.create(formData);
-    if (newChild.err) throw new Error(newChild.err);
+  const handleAddChild = async (formData) => {
+    try {
+      const newChild = await childService.create(formData);
+      if (newChild.err) throw new Error(newChild.err);
 
-    const updatedList = await childService.index();
-    setChildren(updatedList);
-console.log("Fetched children after add:", updatedList);
+      const updatedList = await childService.index();
+      setChildren(updatedList);
+      console.log("Fetched children after add:", updatedList);
 
-    setSelected(null); 
-    setIsFormOpen(false); 
-  } catch (err) {
-    console.log(err);
-  }
-};
+      setSelected(null);
+      setIsFormOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleUpdateChild = async (formData, childId) => {
     try {
@@ -103,9 +99,14 @@ console.log("Fetched children after add:", updatedList);
         <Route path='/'
           element={
             <>
+              <img
+                src="/ParentPal-Logo.png"
+                alt="ParentPal Logo"
+                style={{ width: '200px', display: 'block', margin: '1rem auto' }}
+              />
               <h1>Welcome To ParentPal</h1>
 
-              <ChildList 
+              <ChildList
                 children={children}
                 handleSelect={handleSelect}
                 handleFormView={handleFormView}
@@ -113,26 +114,26 @@ console.log("Fetched children after add:", updatedList);
               />
 
               {isFormOpen ? (
-              <ChildForm
-                handleAddChild={handleAddChild}
-                selected={selected}
-                handleUpdateChild={handleUpdateChild}
-              />
+                <ChildForm
+                  handleAddChild={handleAddChild}
+                  selected={selected}
+                  handleUpdateChild={handleUpdateChild}
+                />
               ) : (
-              <ChildDetail
-                selected={selected}
-                handleFormView={handleFormView}
-                handleDeleteChild={handleDeleteChild}
-              />
-            )} 
-        </>
+                <ChildDetail
+                  selected={selected}
+                  handleFormView={handleFormView}
+                  handleDeleteChild={handleDeleteChild}
+                />
+              )}
+            </>
           }
-          />
-              <Route path='/sign-up' element={<SignUpForm />} />
-              <Route path='/sign-in' element={<SignInForm />} />
-            </Routes>
-        </>
-        )
+        />
+        <Route path='/sign-up' element={<SignUpForm />} />
+        <Route path='/sign-in' element={<SignInForm />} />
+      </Routes>
+    </>
+  )
 }
 
-        export default App;
+export default App;

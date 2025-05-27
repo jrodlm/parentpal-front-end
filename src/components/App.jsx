@@ -5,8 +5,6 @@ import * as childService from '../services/childService';
 import ChildList from '../components/ChildList/ChildList';
 import ChildDetail from '../components/ChildDetail/ChildDetail'
 import ChildForm from '../components/ChildForm/ChildForm'
-import Home from '../pages/Home';
-import Login from '../pages/Login';
 import NavBar from './NavBar/NavBar';
 import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SignInForm/SignInForm';
@@ -21,13 +19,11 @@ function App() {
     const fetchChildren = async () => {
       try {
         const fetchedChildren = await childService.index();
-        // Don't forget to pass the error object to the new Error
         if (fetchedChildren.err) {
           throw new Error(fetchedChildren.err);
         }
         setChildren(fetchedChildren);
       } catch (err) {
-        // Log the error object
         console.log(err);
       }
     };

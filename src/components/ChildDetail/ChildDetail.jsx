@@ -5,9 +5,9 @@ import { useState } from 'react';
 
 const ChildDetail = (props) => {
 
-  const [updateActivities, setUpdateActivities] = useState(false);
+    const [updateActivities, setUpdateActivities] = useState(false);
 
-  const initiateUpdate = () => setUpdateActivities((prev) => !prev);
+    const initiateUpdate = () => setUpdateActivities((prev) => !prev);
 
     if (!props.selected) {
         return (
@@ -35,7 +35,7 @@ const ChildDetail = (props) => {
             <hr />
             <h3>Log a New Activity</h3>
             <ActivityForm childId={props.selected._id} onAdd={initiateUpdate}
- />
+            />
             <h3>Activity History</h3>
             <ActivityList childId={props.selected._id} intiateUpdate={updateActivities} />
         </>

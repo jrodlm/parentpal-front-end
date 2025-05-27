@@ -1,6 +1,6 @@
 const ParentDetail = (props) => {
 
-    if(!props.selected) {
+    if (!props.selected) {
         return (
             <div>
                 <h1>No Details</h1>

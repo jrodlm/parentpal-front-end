@@ -1,5 +1,7 @@
 # ParentPal – Front-End
 
+![alt text](public/ParentPal-Logo.png)
+
 Welcome to the front-end of ParentPal, a modern MERN-stack parenting assistant that allows parents to track key activities for their children, such as naps, meals, playtime, and more.
 
 ## Tech Stack

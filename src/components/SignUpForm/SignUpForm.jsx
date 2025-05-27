@@ -24,12 +24,12 @@ const SignUpForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-        const newUser = await signUp(formData)
-        setUser(newUser)
-        navigate('/')
+      const newUser = await signUp(formData)
+      setUser(newUser)
+      navigate('/')
     } catch (err) {
-        console.log(err)
-    }// this line will print the form data to the console
+      console.log(err)
+    }
   };
 
   const isFormInvalid = () => {
